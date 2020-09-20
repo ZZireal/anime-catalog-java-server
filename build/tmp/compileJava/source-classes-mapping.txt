@@ -1,0 +1,6 @@
+by/bsuir/animeCatalog/repositories/AnimeRepository.java
+ by.bsuir.animeCatalog.repositories.AnimeRepository
+by/bsuir/animeCatalog/model/Anime.java
+ by.bsuir.animeCatalog.model.Anime
+by/bsuir/animeCatalog/AnimeCatalogApplication.java
+ by.bsuir.animeCatalog.AnimeCatalogApplication
