@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class Anime implements Serializable {
 
     @Id
-    private String id;
+    private String _id;
 
     @Indexed
     private String title;
@@ -20,6 +20,8 @@ public class Anime implements Serializable {
     private int year;
     private int age;
     private String image;
+
+    public Anime() {}
 
     public Anime(String title, String category, String genre, int series, int year, int age, String image) {
         this.title = title;
@@ -31,12 +33,12 @@ public class Anime implements Serializable {
         this.image = image;
     }
 
-    public String getId() {
-        return id;
+    public String get_id() {
+        return _id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getTitle() {
@@ -98,7 +100,7 @@ public class Anime implements Serializable {
     @Override
     public String toString() {
         return String.format(
-                "{ \"id\":\"%s\", \"title\":\"%s\", \"category\":\"%s\", \"genre\":\"%s\", \"series\":%s, \"year\":%s, \"age\":%s, \"image\":\"%s\" }",
-                id, title, category, genre, series, year, age, image);
+                "{ \"_id\":\"%s\", \"title\":\"%s\", \"category\":\"%s\", \"genre\":\"%s\", \"series\":%s, \"year\":%s, \"age\":%s, \"image\":\"%s\" }",
+                _id, title, category, genre, series, year, age, image);
     }
 }
