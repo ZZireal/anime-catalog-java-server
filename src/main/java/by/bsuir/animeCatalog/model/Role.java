@@ -3,6 +3,7 @@ package by.bsuir.animeCatalog.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
 
@@ -10,7 +11,7 @@ import java.io.Serializable;
 public class Role implements Serializable {
 
     @Id
-    private String id;
+    private String _id;
 
     @Indexed
     private String title;
@@ -23,12 +24,12 @@ public class Role implements Serializable {
         this.description = description;
     }
 
-    public String getId() {
-        return id;
+    public String get_id() {
+        return _id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getTitle() {
@@ -51,6 +52,6 @@ public class Role implements Serializable {
     public String toString() {
         return String.format(
                 "{ \"_id\":\"%s\", \"title\":\"%s\", \"description\":\"%s\" }",
-                id, title, description);
+                _id, title, description);
     }
 }

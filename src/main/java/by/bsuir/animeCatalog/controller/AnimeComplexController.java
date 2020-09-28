@@ -25,11 +25,11 @@ public class AnimeComplexController implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("*");
+        registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "POST", "PUT", "DELETE");
     }
 
     @GetMapping("/")
-    public ResponseEntity<?> getAnime () {
+    public ResponseEntity<?> getAnimeComplex () {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -38,7 +38,21 @@ public class AnimeComplexController implements WebMvcConfigurer {
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> createAnime (@RequestBody AnimeComplex animeComplex) {
+    public ResponseEntity<?> createAnimeComplex (
+            @RequestParam(required = false, name = "id", defaultValue = "noId") String id,
+            @RequestBody AnimeComplex animeComplex
+    ) {
+        //In fact, it is @DeleteMapping
+        if (!id.equals("noId")) {
+            AnimeComplex animeComplexToDelete = animeComplexRepository.findBy_id(id);
+            animeComplexRepository.delete(animeComplexToDelete);
+
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+            return new ResponseEntity(animeComplexToDelete, httpHeaders, HttpStatus.OK);
+        }
+        //
         animeComplexRepository.save(animeComplex);
 
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -48,19 +62,19 @@ public class AnimeComplexController implements WebMvcConfigurer {
         return new ResponseEntity(animeComplex, httpHeaders, HttpStatus.OK);
     }
 
-    @DeleteMapping("/")
-    public ResponseEntity<?>  deleteAnime (@RequestBody String title) {
-        AnimeComplex animeComplex = animeComplexRepository.findByTitle(title);
-        animeComplexRepository.delete(animeComplex);
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-
-        return new ResponseEntity(animeComplex, httpHeaders, HttpStatus.OK);
-    }
+//    @DeleteMapping("/")
+//    public ResponseEntity<?>  deleteAnimeComplex (@RequestBody String title) {
+//        AnimeComplex animeComplex = animeComplexRepository.findByTitle(title);
+//        animeComplexRepository.delete(animeComplex);
+//
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+//
+//        return new ResponseEntity(animeComplex, httpHeaders, HttpStatus.OK);
+//    }
 
     @PutMapping("/")
-    public ResponseEntity<?>  updateAnime (@RequestBody AnimeComplex animeComplexNew) {
+    public ResponseEntity<?>  updateAnimeComplex (@RequestBody AnimeComplex animeComplexNew) {
         AnimeComplex animeComplexOld = animeComplexRepository.findByTitle(animeComplexNew.getTitle());
 
         animeComplexOld.setAnimeId(animeComplexNew.getAnimeId());

@@ -1,11 +1,11 @@
-by/bsuir/animeCatalog/controller/RoleController.java
- by.bsuir.animeCatalog.controller.RoleController
-by/bsuir/animeCatalog/AnimeCatalogApplication.java
- by.bsuir.animeCatalog.AnimeCatalogApplication
-by/bsuir/animeCatalog/controller/UserController.java
- by.bsuir.animeCatalog.controller.UserController
 by/bsuir/animeCatalog/model/Anime.java
  by.bsuir.animeCatalog.model.Anime
+by/bsuir/animeCatalog/AnimeCatalogApplication.java
+ by.bsuir.animeCatalog.AnimeCatalogApplication
+by/bsuir/animeCatalog/controller/RoleController.java
+ by.bsuir.animeCatalog.controller.RoleController
+by/bsuir/animeCatalog/controller/AnimeController.java
+ by.bsuir.animeCatalog.controller.AnimeController
 by/bsuir/animeCatalog/model/Role.java
  by.bsuir.animeCatalog.model.Role
 by/bsuir/animeCatalog/model/User.java
@@ -22,5 +22,5 @@ by/bsuir/animeCatalog/controller/AnimeComplexController.java
  by.bsuir.animeCatalog.controller.AnimeComplexController
 by/bsuir/animeCatalog/repositories/RoleRepository.java
  by.bsuir.animeCatalog.repositories.RoleRepository
-by/bsuir/animeCatalog/controller/AnimeController.java
- by.bsuir.animeCatalog.controller.AnimeController
+by/bsuir/animeCatalog/controller/UserController.java
+ by.bsuir.animeCatalog.controller.UserController

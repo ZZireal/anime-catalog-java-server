@@ -12,7 +12,7 @@ import java.util.List;
 public class AnimeComplex implements Serializable {
 
     @Id
-    private String id;
+    private String _id;
 
     @Indexed
     private String title;
@@ -25,6 +25,13 @@ public class AnimeComplex implements Serializable {
         this.animeId = animeId;
     }
 
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
 
     public String getTitle() {
         return title;
@@ -46,6 +53,6 @@ public class AnimeComplex implements Serializable {
     public String toString() {
         return String.format(
                 "{ \"_id\":\"%s\", \"title\":\"%s\", \"anime\":\"%s\" }",
-                id, title, animeId.toString());
+                _id, title, animeId.toString());
     }
 }

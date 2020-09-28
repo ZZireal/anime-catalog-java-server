@@ -26,7 +26,7 @@ public class AnimeController implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("*");
+        registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "POST", "PUT", "DELETE");
     }
 
     @GetMapping("/")
@@ -54,7 +54,22 @@ public class AnimeController implements WebMvcConfigurer {
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> createAnime (@RequestBody Anime anime) {
+    public ResponseEntity<?> createAnime (
+            @RequestParam(required = false, name = "id", defaultValue = "noId") String id,
+            @RequestBody Anime anime
+    ) {
+        //In fact, it is @DeleteMapping
+        if (!id.equals("noId")) {
+            Anime animeToDelete = animeRepository.findBy_id(id);
+            animeRepository.delete(animeToDelete);
+
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+            return new ResponseEntity(animeToDelete, httpHeaders, HttpStatus.OK);
+        }
+        //
+
         animeRepository.save(anime);
 
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -64,16 +79,16 @@ public class AnimeController implements WebMvcConfigurer {
         return new ResponseEntity(anime, httpHeaders, HttpStatus.OK);
     }
 
-    @PostMapping("/delete")
-    public ResponseEntity<?>  deleteAnime (@RequestParam(name = "id") String id) {
-        Anime anime = animeRepository.findBy_id(id);
-        animeRepository.delete(anime);
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-
-        return new ResponseEntity(anime, httpHeaders, HttpStatus.OK);
-    }
+//    @DeleteMapping("/")
+//    public ResponseEntity<?>  deleteAnime (@RequestParam(name = "id") String id) {
+//        Anime anime = animeRepository.findBy_id(id);
+//        animeRepository.delete(anime);
+//
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+//
+//        return new ResponseEntity(anime, httpHeaders, HttpStatus.OK);
+//    }
 
     @PutMapping("/")
     public ResponseEntity<?>  updateAnime (@RequestBody Anime animeNew) {
