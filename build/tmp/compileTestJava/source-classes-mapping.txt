@@ -1,0 +1,2 @@
+by/bsuir/animeCatalog/AnimeCatalogApplicationTests.java
+ by.bsuir.animeCatalog.AnimeCatalogApplicationTests

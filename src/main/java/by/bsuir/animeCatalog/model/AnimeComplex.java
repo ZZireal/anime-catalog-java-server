@@ -16,13 +16,13 @@ public class AnimeComplex implements Serializable {
 
     @Indexed
     private String title;
-    private List<String> animeId;
+    private List<Anime> anime;
 
     public AnimeComplex() {}
 
-    public AnimeComplex(String title, List<String> animeId) {
+    public AnimeComplex(String title, List<Anime> anime) {
         this.title = title;
-        this.animeId = animeId;
+        this.anime = anime;
     }
 
     public String get_id() {
@@ -41,18 +41,18 @@ public class AnimeComplex implements Serializable {
         this.title = title;
     }
 
-    public List<String> getAnimeId() {
-        return animeId;
+    public List<Anime> getAnime() {
+        return anime;
     }
 
-    public void setAnimeId(List<String> anime) {
-        this.animeId = anime;
+    public void setAnime(List<Anime> anime) {
+        this.anime = anime;
     }
 
     @Override
     public String toString() {
         return String.format(
                 "{ \"_id\":\"%s\", \"title\":\"%s\", \"anime\":\"%s\" }",
-                _id, title, animeId.toString());
+                _id, title, anime.toString());
     }
 }

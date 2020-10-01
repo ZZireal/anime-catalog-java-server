@@ -30,10 +30,23 @@ public class RoleController implements WebMvcConfigurer {
     }
 
     @GetMapping("/")
-    public ResponseEntity<?> getRole () {
+    public ResponseEntity<?> getRole (
+            @RequestParam(required = false, name = "id", defaultValue = "noId") String id,
+            @RequestParam(required = false, name = "field", defaultValue = "noField") String field,
+            @RequestParam(required = false, name = "order", defaultValue = "noOrder") String order
+    ) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
+        if ( !id.equals("noId") ) {
+            return new ResponseEntity(roleRepository.findBy_id(id), httpHeaders, HttpStatus.OK);
+        }
+
+        if ( !field.equals("noField") || !order.equals("noOrder")) {
+            Sort.Direction sort = Sort.Direction.ASC;
+            if (order.equals("false")) sort = Sort.Direction.DESC;
+            return new ResponseEntity(roleRepository.findAll(Sort.by(sort, field)), httpHeaders, HttpStatus.OK);
+        }
         return new ResponseEntity(roleRepository.findAll(), httpHeaders, HttpStatus.OK);
     }
 

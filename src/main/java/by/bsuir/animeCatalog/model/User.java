@@ -18,17 +18,17 @@ public class User implements Serializable {
     private String firstname;
     private String lastname;
     private String passwordHash;
-    private String roleId;
+    private String role;
     private List<String> favourite;
 
     public User() {}
 
-    public User(String username, String firstname, String lastname, String passwordHash, String roleId, List<String> favourite) {
+    public User(String username, String firstname, String lastname, String passwordHash, String role, List<String> favourite) {
         this.username = username;
         this.firstname = firstname;
         this.lastname = lastname;
         this.passwordHash = passwordHash;
-        this.roleId = roleId;
+        this.role = role;
         this.favourite = favourite;
     }
 
@@ -72,14 +72,6 @@ public class User implements Serializable {
         this.passwordHash = passwordHash;
     }
 
-    public String getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
-    }
-
     public List<String> getFavourite() {
         return favourite;
     }
@@ -88,10 +80,18 @@ public class User implements Serializable {
         this.favourite = favourite;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return String.format(
-                "{ \"_id\":\"%s\", \"username\":\"%s\", \"firstname\":\"%s\", \"lastname\":\"%s\", \"passwordHash\":%s, \"roleId\":%s, \"favourite\":%s  }",
-                _id, username, firstname, lastname, passwordHash, roleId, favourite);
+                "{ \"_id\":\"%s\", \"username\":\"%s\", \"firstname\":\"%s\", \"lastname\":\"%s\", \"passwordHash\":%s, \"role\":%s, \"favourite\":%s  }",
+                _id, username, firstname, lastname, passwordHash, role, favourite);
     }
 }

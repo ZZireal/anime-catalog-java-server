@@ -6,6 +6,7 @@ import by.bsuir.animeCatalog.repositories.RoleRepository;
 import by.bsuir.animeCatalog.repositories.UserRepository;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -29,10 +30,23 @@ public class UserController implements WebMvcConfigurer {
     }
 
     @GetMapping("/")
-    public ResponseEntity<?> getUser () {
+    public ResponseEntity<?> getUser (
+            @RequestParam(required = false, name = "id", defaultValue = "noId") String id,
+            @RequestParam(required = false, name = "field", defaultValue = "noField") String field,
+            @RequestParam(required = false, name = "order", defaultValue = "noOrder") String order
+    ) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
+        if ( !id.equals("noId") ) {
+            return new ResponseEntity(userRepository.findBy_id(id), httpHeaders, HttpStatus.OK);
+        }
+
+        if ( !field.equals("noField") || !order.equals("noOrder")) {
+            Sort.Direction sort = Sort.Direction.ASC;
+            if (order.equals("false")) sort = Sort.Direction.DESC;
+            return new ResponseEntity(userRepository.findAll(Sort.by(sort, field)), httpHeaders, HttpStatus.OK);
+        }
         return new ResponseEntity(userRepository.findAll(), httpHeaders, HttpStatus.OK);
     }
 
@@ -81,7 +95,7 @@ public class UserController implements WebMvcConfigurer {
         userOld.setLastname(userNew.getLastname());
         userOld.setPasswordHash(userNew.getPasswordHash());
         userOld.setFavourite(userNew.getFavourite());
-        userOld.setRoleId(userNew.getRoleId());
+        userOld.setRole(userNew.getRole());
 
         userRepository.save(userOld);
 

@@ -6,6 +6,7 @@ import by.bsuir.animeCatalog.repositories.AnimeComplexRepository;
 import by.bsuir.animeCatalog.repositories.AnimeRepository;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -29,22 +30,52 @@ public class AnimeComplexController implements WebMvcConfigurer {
     }
 
     @GetMapping("/")
-    public ResponseEntity<?> getAnimeComplex () {
-
+    public ResponseEntity<?> getAnimeComplex (
+            @RequestParam(required = false, name = "id", defaultValue = "noId") String id,
+            @RequestParam(required = false, name = "field", defaultValue = "noField") String field,
+            @RequestParam(required = false, name = "order", defaultValue = "noOrder") String order
+    ) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
+        if ( !id.equals("noId") ) {
+            return new ResponseEntity(animeComplexRepository.findBy_id(id), httpHeaders, HttpStatus.OK);
+        }
+
+        if ( !field.equals("noField") || !order.equals("noOrder")) {
+            Sort.Direction sort = Sort.Direction.ASC;
+            if (order.equals("false")) sort = Sort.Direction.DESC;
+            return new ResponseEntity(animeComplexRepository.findAll(Sort.by(sort, field)), httpHeaders, HttpStatus.OK);
+        }
         return new ResponseEntity(animeComplexRepository.findAll(), httpHeaders, HttpStatus.OK);
     }
 
     @PostMapping("/")
     public ResponseEntity<?> createAnimeComplex (
-            @RequestParam(required = false, name = "id", defaultValue = "noId") String id,
-            @RequestBody AnimeComplex animeComplex
+            @RequestParam(required = false, name = "animeComplexId", defaultValue = "noAnimeComplexId") String animeComplexId,
+            @RequestParam(required = false, name = "animeId", defaultValue = "noAnimeId") String animeId,
+            @RequestBody(required = false) AnimeComplex animeComplex
     ) {
         //In fact, it is @DeleteMapping
-        if (!id.equals("noId")) {
-            AnimeComplex animeComplexToDelete = animeComplexRepository.findBy_id(id);
+        if (!animeComplexId.equals("noAnimeComplexId") && !animeId.equals("noAnimeId")) {
+            AnimeComplex animeComplexToDelete = animeComplexRepository.findBy_id(animeComplexId);
+            List<Anime> animeList = animeComplexToDelete.getAnime();
+            for (Anime anime : animeList) {
+                if (anime.get_id().equals(animeId)) {
+                    animeList.remove(anime);
+                    break;
+                }
+            }
+            animeComplexToDelete.setAnime(animeList);
+            animeComplexRepository.save(animeComplexToDelete);
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+            return new ResponseEntity(animeComplexToDelete, httpHeaders, HttpStatus.OK);
+        }
+
+        if (!animeComplexId.equals("noAnimeComplexId") && animeId.equals("noAnimeId")) {
+            AnimeComplex animeComplexToDelete = animeComplexRepository.findBy_id(animeComplexId);
             animeComplexRepository.delete(animeComplexToDelete);
 
             HttpHeaders httpHeaders = new HttpHeaders();
@@ -53,7 +84,7 @@ public class AnimeComplexController implements WebMvcConfigurer {
             return new ResponseEntity(animeComplexToDelete, httpHeaders, HttpStatus.OK);
         }
         //
-        animeComplexRepository.save(animeComplex);
+        animeComplexRepository.insert(animeComplex);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccessControlAllowMethods(List.of(HttpMethod.POST));
@@ -73,11 +104,10 @@ public class AnimeComplexController implements WebMvcConfigurer {
 //        return new ResponseEntity(animeComplex, httpHeaders, HttpStatus.OK);
 //    }
 
-    @PutMapping("/")
+    @PostMapping("/update")
     public ResponseEntity<?>  updateAnimeComplex (@RequestBody AnimeComplex animeComplexNew) {
-        AnimeComplex animeComplexOld = animeComplexRepository.findByTitle(animeComplexNew.getTitle());
-
-        animeComplexOld.setAnimeId(animeComplexNew.getAnimeId());
+        AnimeComplex animeComplexOld = animeComplexRepository.findBy_id(animeComplexNew.get_id());
+        animeComplexOld.setAnime(animeComplexNew.getAnime());
 
         animeComplexRepository.save(animeComplexOld);
 
