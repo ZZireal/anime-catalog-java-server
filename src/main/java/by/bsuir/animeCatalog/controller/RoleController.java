@@ -1,8 +1,6 @@
 package by.bsuir.animeCatalog.controller;
 
-import by.bsuir.animeCatalog.model.Anime;
 import by.bsuir.animeCatalog.model.Role;
-import by.bsuir.animeCatalog.repositories.AnimeRepository;
 import by.bsuir.animeCatalog.repositories.RoleRepository;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,17 +73,6 @@ public class RoleController implements WebMvcConfigurer {
 
         return new ResponseEntity(role, httpHeaders, HttpStatus.OK);
     }
-
-//    @DeleteMapping("/")
-//    public ResponseEntity<?>  deleteRole (@RequestParam(name = "id") String id) {
-//        Role role = roleRepository.findBy_id(id);
-//        roleRepository.delete(role);
-//
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-//
-//        return new ResponseEntity(role, httpHeaders, HttpStatus.OK);
-//    }
 
     @PutMapping("/")
     public ResponseEntity<?>  updateRole (@RequestBody Role roleNew) {

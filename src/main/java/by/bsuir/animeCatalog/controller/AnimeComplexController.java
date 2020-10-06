@@ -3,7 +3,6 @@ package by.bsuir.animeCatalog.controller;
 import by.bsuir.animeCatalog.model.Anime;
 import by.bsuir.animeCatalog.model.AnimeComplex;
 import by.bsuir.animeCatalog.repositories.AnimeComplexRepository;
-import by.bsuir.animeCatalog.repositories.AnimeRepository;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -93,21 +92,11 @@ public class AnimeComplexController implements WebMvcConfigurer {
         return new ResponseEntity(animeComplex, httpHeaders, HttpStatus.OK);
     }
 
-//    @DeleteMapping("/")
-//    public ResponseEntity<?>  deleteAnimeComplex (@RequestBody String title) {
-//        AnimeComplex animeComplex = animeComplexRepository.findByTitle(title);
-//        animeComplexRepository.delete(animeComplex);
-//
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-//
-//        return new ResponseEntity(animeComplex, httpHeaders, HttpStatus.OK);
-//    }
-
     @PostMapping("/update")
     public ResponseEntity<?>  updateAnimeComplex (@RequestBody AnimeComplex animeComplexNew) {
         AnimeComplex animeComplexOld = animeComplexRepository.findBy_id(animeComplexNew.get_id());
         animeComplexOld.setAnime(animeComplexNew.getAnime());
+        animeComplexOld.setTitle(animeComplexNew.getTitle());
 
         animeComplexRepository.save(animeComplexOld);
 

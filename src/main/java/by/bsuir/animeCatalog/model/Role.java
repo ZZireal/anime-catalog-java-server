@@ -3,7 +3,6 @@ package by.bsuir.animeCatalog.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
 

@@ -1,11 +1,8 @@
 package by.bsuir.animeCatalog.repositories;
 
-import by.bsuir.animeCatalog.model.Role;
 import by.bsuir.animeCatalog.model.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
-
-import java.util.List;
 
 public interface UserRepository extends MongoRepository<User, String> {
     public User findBy_id(String id);

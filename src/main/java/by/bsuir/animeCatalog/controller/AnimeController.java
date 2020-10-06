@@ -5,9 +5,7 @@ import by.bsuir.animeCatalog.repositories.AnimeRepository;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.http.*;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -37,10 +35,8 @@ public class AnimeController implements WebMvcConfigurer {
     ) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        System.out.println(id + field + order);
 
         if ( !id.equals("noId") ) {
-            System.out.println(animeRepository.findBy_id(id));
             return new ResponseEntity(animeRepository.findBy_id(id), httpHeaders, HttpStatus.OK);
         }
 
@@ -49,7 +45,6 @@ public class AnimeController implements WebMvcConfigurer {
             if (order.equals("false")) sort = Sort.Direction.DESC;
             return new ResponseEntity(animeRepository.findAll(Sort.by(sort, field)), httpHeaders, HttpStatus.OK);
         }
-        System.out.println("Try get all!");
         return new ResponseEntity(animeRepository.findAll(), httpHeaders, HttpStatus.OK);
     }
 
@@ -78,17 +73,6 @@ public class AnimeController implements WebMvcConfigurer {
 
         return new ResponseEntity(anime, httpHeaders, HttpStatus.OK);
     }
-
-//    @DeleteMapping("/")
-//    public ResponseEntity<?>  deleteAnime (@RequestParam(name = "id") String id) {
-//        Anime anime = animeRepository.findBy_id(id);
-//        animeRepository.delete(anime);
-//
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-//
-//        return new ResponseEntity(anime, httpHeaders, HttpStatus.OK);
-//    }
 
     @PutMapping("/")
     public ResponseEntity<?>  updateAnime (@RequestBody Anime animeNew) {
